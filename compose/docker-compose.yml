@@ -1,6 +1,8 @@
 # Project TransEg — one compose starts everything (INTENT: Container Requirements).
 # © 1993-2026 Abhishek Choudhary · AyeAI · GPL-3.0-or-later
-# GPU: avatar is the sole tenant of the RTX 3050's 4 GB (CONTRACT §4).
+# GPU: faster-liveportrait is the SOLE tenant of the RTX 3050's 4 GB (CONTRACT §4).
+# v0.1.1 fixes: real FLP image (not a hand-built CUDA Dockerfile), VAD in-process
+#               (the silero-vad backend host never existed), kokoro backend made explicit.
 name: transeg
 x-svc: &svc
   restart: unless-stopped
@@ -33,6 +35,7 @@ services:
   staggered:
     <<: *svc
     build: {context: .., dockerfile: docker/service.Dockerfile, args: {SERVICE: staggered}}
+    ports: ["8082:80"]                       # benchmarks (transeg-research) read /capability
     environment: {<<: *env, TRANSEG_STAGGERED_STATE: /data/staggered_state.json}
     volumes: ["transeg-data:/data"]
 
@@ -44,8 +47,9 @@ services:
 
   vad:
     <<: *svc
-    build: {context: .., dockerfile: docker/service.Dockerfile, args: {SERVICE: vad}}
-    environment: {<<: *env, TRANSEG_SILERO_URL: "http://silero-vad:8091/vad"}
+    build: {context: .., dockerfile: docker/vad.Dockerfile}   # + onnxruntime, CPU
+    environment: {<<: *env, TRANSEG_SILERO_ONNX: /models/silero_vad.onnx}
+    volumes: ["../models:/models:ro"]        # silero runs in-process; no backend container
 
   llm:
     <<: *svc
@@ -56,32 +60,50 @@ services:
   tts:
     <<: *svc
     build: {context: .., dockerfile: docker/service.Dockerfile, args: {SERVICE: tts}}
-    environment: {<<: *env, TRANSEG_KOKORO_URL: "http://kokoro-tts:8092/synthesize"}
+    environment: {<<: *env, TRANSEG_KOKORO_URL: "${TRANSEG_KOKORO_URL:-http://kokoro-tts:8880/v1/audio/speech}"}
 
   avatar:
     <<: *svc
     build: {context: .., dockerfile: docker/service.Dockerfile, args: {SERVICE: avatar}}
     environment: {<<: *env, TRANSEG_LIVEPORTRAIT_URL: "http://faster-liveportrait:8093/render"}
+    depends_on: [faster-liveportrait]
 
-  # ---- backends (models live in ../models, mounted read-only; no duplicate loading) ----
+  # ---- backends (models mounted read-only; no duplicate loading) ----
   whisper-cpp:
     <<: *svc
-    image: ghcr.io/ggml-org/whisper.cpp:main   # pin a digest on target: bootstrap.sh --pin
+    image: ${TRANSEG_WHISPER_IMAGE:-ghcr.io/ggml-org/whisper.cpp:main}   # PIN on target: bootstrap.sh --pin
     command: ["--host","0.0.0.0","--port","8090","-m","/models/ggml-base.en.bin"]
     volumes: ["../models:/models:ro"]
-    deploy: {resources: {limits: {memory: 2g}}}   # CPU only
+    deploy: {resources: {limits: {memory: 2g}}}          # CPU only
 
   llm-backend:
     <<: *svc
-    image: ollama/ollama:latest                # pin a digest on target: bootstrap.sh --pin
+    image: ollama/ollama:latest                          # PIN on target: bootstrap.sh --pin
     volumes: ["transeg-ollama:/root/.ollama"]
-    environment: {OLLAMA_NUM_GPU: "0"}         # CPU: the 4 GB VRAM belongs to the avatar
+    environment: {OLLAMA_NUM_GPU: "0"}                   # CPU: the 4 GB VRAM is the avatar's
     deploy: {resources: {limits: {memory: 8g}}}
+
+  # Kokoro TTS. UNVERIFIED IMAGE — set TRANSEG_KOKORO_IMAGE yourself and pin it, or run
+  # your own; the tts adapter only needs an endpoint that returns audio for {text, voice}.
+  kokoro-tts:
+    <<: *svc
+    image: ${TRANSEG_KOKORO_IMAGE:-ghcr.io/remsky/kokoro-fastapi-cpu:latest}
+    profiles: ["tts"]                                    # opt-in: docker compose --profile tts up
+    deploy: {resources: {limits: {memory: 4g}}}
 
   faster-liveportrait:
     <<: *svc
-    build: {context: .., dockerfile: docker/liveportrait.Dockerfile}
-    volumes: ["../models:/models:ro"]
+    image: shaoguo/faster_liveportrait:v3                # upstream image: onnxruntime-gpu + TensorRT inside
+    working_dir: /root/FasterLivePortrait
+    command: ["python","transeg_server.py","--host","0.0.0.0","--port","8093",
+              "--cfg","${TRANSEG_FLP_CFG:-configs/onnx_infer.yaml}",
+              "--source","/models/liveportrait/source.png"]
+    volumes:
+      - "../third_party/FasterLivePortrait:/root/FasterLivePortrait"
+      - "../models/liveportrait/checkpoints:/root/FasterLivePortrait/checkpoints"
+      - "../docker/liveportrait_server.py:/root/FasterLivePortrait/transeg_server.py:ro"
+      - "../models:/models:ro"
+    environment: {<<: *env, FLIP_CHECKPOINT_DIR: /root/FasterLivePortrait/checkpoints}
     deploy:
       resources:
         reservations:
