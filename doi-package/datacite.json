@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "http://datacite.org/schema/kernel-4",
+  "types": {
+    "resourceTypeGeneral": "Software",
+    "resourceType": "software"
+  },
+  "titles": [
+    {
+      "title": "TransEg — Local Digital Twin Reference Implementation (v0.1.0)"
+    }
+  ],
+  "creators": [
+    {
+      "name": "Choudhary, Abhishek",
+      "nameType": "Personal",
+      "givenName": "Abhishek",
+      "familyName": "Choudhary",
+      "affiliation": [
+        {
+          "name": "AyeAI, Hyderabad, India"
+        }
+      ],
+      "nameIdentifiers": [
+        {
+          "nameIdentifier": "https://orcid.org/0009-0002-0684-8320",
+          "nameIdentifierScheme": "ORCID",
+          "schemeUri": "https://orcid.org"
+        }
+      ]
+    }
+  ],
+  "publisher": "Zenodo",
+  "publicationYear": "2026",
+  "subjects": [
+    {
+      "subject": "TransEg"
+    },
+    {
+      "subject": "digital twin"
+    },
+    {
+      "subject": "identity continuity"
+    },
+    {
+      "subject": "local-first"
+    },
+    {
+      "subject": "privacy"
+    },
+    {
+      "subject": "PEDLER"
+    },
+    {
+      "subject": "Zistgah"
+    },
+    {
+      "subject": "staggered upload"
+    },
+    {
+      "subject": "identity graph"
+    }
+  ],
+  "version": "0.1.0",
+  "descriptions": [
+    {
+      "description": "First executable reference implementation of the TransEg architecture: a fully local, privacy-preserving, modular, containerized identity-continuity research platform. Not a chatbot; not merely a talking avatar. Four typed layers (Human Identity, Representation, Digital Twin, TransEg — never conflated), an identity graph with per-node provenance/timestamps/confidence/permissions, a typed Staggered Upload state machine (stages 0-7, independently enabled/revoked/versioned/auditable), and a replaceable component pipeline (Silero VAD, Whisper.cpp ASR, Ollama capability-contract LLM, Kokoro TTS, FasterLivePortrait avatar as sole GPU tenant on a 4 GB VRAM budget) behind a FastAPI gateway. TransEg exists within Zistgah, the enduring institutional substrate; PEDLER provides adaptive cognition, PRATIK the execution substrate, PAT.AL societal participation, VIDYA the knowledge ecosystem. Derived from PEDLER (first published November 2001). Sole author: Abhishek Choudhary, AyeAI, Hyderabad, India. Software GPL-3.0-or-later; content CC-BY-SA-4.0; metadata CC0-1.0; novel methods proprietary (patents reserved).",
+      "descriptionType": "Abstract"
+    }
+  ],
+  "rightsList": [
+    {
+      "rights": "gpl-3.0-or-later",
+      "rightsIdentifier": "gpl-3.0-or-later",
+      "rightsIdentifierScheme": "SPDX"
+    }
+  ],
+  "language": "eng",
+  "relatedIdentifiers": [
+    {
+      "relatedIdentifier": "10.5281/zenodo.17497559",
+      "relationType": "IsDerivedFrom",
+      "relatedIdentifierType": "DOI"
+    }
+  ]
+}

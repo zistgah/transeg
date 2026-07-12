@@ -6,3 +6,4 @@ models/*
 !models/.gitkeep
 *.tar.gz
 .pytest_cache/
+.venv/

@@ -1,18 +1,10 @@
 {
-  "title": "TransEg — Local Digital Twin Reference Implementation (v0.1.0)",
-  "version": "0.1.0",
-  "upload_type": "software",
-  "publication_date": "2026-07-12",
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+  "@type": "SoftwareSourceCode",
+  "name": "TransEg — Local Digital Twin Reference Implementation (v0.1.0)",
   "description": "First executable reference implementation of the TransEg architecture: a fully local, privacy-preserving, modular, containerized identity-continuity research platform. Not a chatbot; not merely a talking avatar. Four typed layers (Human Identity, Representation, Digital Twin, TransEg — never conflated), an identity graph with per-node provenance/timestamps/confidence/permissions, a typed Staggered Upload state machine (stages 0-7, independently enabled/revoked/versioned/auditable), and a replaceable component pipeline (Silero VAD, Whisper.cpp ASR, Ollama capability-contract LLM, Kokoro TTS, FasterLivePortrait avatar as sole GPU tenant on a 4 GB VRAM budget) behind a FastAPI gateway. TransEg exists within Zistgah, the enduring institutional substrate; PEDLER provides adaptive cognition, PRATIK the execution substrate, PAT.AL societal participation, VIDYA the knowledge ecosystem. Derived from PEDLER (first published November 2001). Sole author: Abhishek Choudhary, AyeAI, Hyderabad, India. Software GPL-3.0-or-later; content CC-BY-SA-4.0; metadata CC0-1.0; novel methods proprietary (patents reserved).",
-  "license": "gpl-3.0-or-later",
-  "access_right": "open",
-  "creators": [
-    {
-      "name": "Choudhary, Abhishek",
-      "orcid": "0009-0002-0684-8320",
-      "affiliation": "AyeAI, Hyderabad, India"
-    }
-  ],
+  "version": "0.1.0",
+  "license": "https://spdx.org/licenses/gpl-3.0-or-later",
   "keywords": [
     "TransEg",
     "digital twin",
@@ -24,12 +16,18 @@
     "staggered upload",
     "identity graph"
   ],
-  "related_identifiers": [
+  "author": [
     {
-      "identifier": "10.5281/zenodo.17497559",
-      "relation": "isDerivedFrom",
-      "scheme": "doi"
+      "@type": "Person",
+      "familyName": "Choudhary",
+      "givenName": "Abhishek",
+      "@id": "https://orcid.org/0009-0002-0684-8320",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "AyeAI, Hyderabad, India"
+      }
     }
   ],
-  "repository": "https://github.com/zistgah/transeg"
+  "dateModified": "2026-07-12",
+  "codeRepository": "https://github.com/zistgah/transeg"
 }

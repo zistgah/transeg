@@ -22,7 +22,7 @@ gate(){
   ! grep -RIn "${X[@]}" "Independent Researcher" . || { echo "BAD AFFILIATION"; exit 1; }
   log "gate: DOI discipline — only verified DOIs"
   ALLOWED="10.5281/zenodo.17497559"
-  FOUND=$(grep -RhoI "${X[@]}" "10\.5281/zenodo\.[0-9]*" . | sort -u)
+  FOUND=$(grep -RhoI "${X[@]}" "10\.5281/zenodo\.[0-9]\+" . | sort -u)
   for d in $FOUND; do case " $ALLOWED " in *" $d "*) ;; *) echo "UNVERIFIED DOI $d"; exit 1;; esac; done
   log "gate: pre-mint resolve check reminder"
   log "  run on your machine: curl -sIL https://doi.org/10.5281/zenodo.17497559 | head -1  (expect 200)"

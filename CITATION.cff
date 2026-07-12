@@ -12,7 +12,7 @@ license: GPL-3.0-or-later
 date-released: 2026-07-12
 identifiers:
   - type: other
-    value: "ZENODO-DOI-PENDING"
+    value: "10.5281/zenodo.NNNNNNNN"
     description: "DOI token; injected post-mint by zistgah_seed_transeg.sh --inject-doi"
 references:
   - type: generic

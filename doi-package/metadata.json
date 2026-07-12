@@ -9,8 +9,8 @@
   "creators": [
     {
       "name": "Choudhary, Abhishek",
-      "orcid": "0009-0002-0684-8320",
-      "affiliation": "AyeAI, Hyderabad, India"
+      "affiliation": "AyeAI, Hyderabad, India",
+      "orcid": "0009-0002-0684-8320"
     }
   ],
   "keywords": [
@@ -31,5 +31,6 @@
       "scheme": "doi"
     }
   ],
-  "repository": "https://github.com/zistgah/transeg"
+  "repository": "https://github.com/zistgah/transeg",
+  "language": "eng"
 }

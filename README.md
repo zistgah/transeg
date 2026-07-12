@@ -2,7 +2,7 @@
 
 **TransEg™** · © 1993–2026 Abhishek Choudhary · AyeAI, Hyderabad, India · sole author.
 Software GPL-3.0-or-later · content CC-BY-SA-4.0 · metadata CC0-1.0 · novel methods proprietary.
-DOI: ZENODO-DOI-PENDING · derived from PEDLER (Nov 2001, doi:10.5281/zenodo.17497559)
+DOI: 10.5281/zenodo.NNNNNNNN · derived from PEDLER (Nov 2001, doi:10.5281/zenodo.17497559)
 
 This is not a chatbot. It is not merely a talking avatar. It is an **identity continuity
 research platform** — the first executable reference implementation of the TransEg
@@ -23,13 +23,20 @@ Engineering: three repos, one architecture.
 
 ## Quick start (target: Ryzen 7 · 16 GB · RTX 3050 4 GB · Ubuntu 26.04 · Docker)
 ```
+scripts/test.sh                     # hermetic venv; 10/10 before anything else
 ./scripts/bootstrap.sh --dry-run    # read the plan
 ./scripts/bootstrap.sh              # validate host, build, models, start, health, pin
-curl -s localhost:8080/health
 ```
-The pipeline: mic → Silero VAD (CPU) → Whisper.cpp (CPU) → gateway → identity graph →
-Ollama LLM (CPU, capability contract — never a hard-coded model) → Kokoro TTS (CPU) →
-FasterLivePortrait (the **sole GPU tenant**; the 4 GB VRAM belongs to the face).
+
+### Avatar (the face; the sole GPU tenant)
+```
+scripts/avatar_setup.sh                                # FLP source + LivePortrait onnx + JoyVASA + hubert + silero
+cp <frontal portrait> models/liveportrait/source.png   # your Stage-0 artifact; never leaves the box
+docker compose -f compose/docker-compose.yml --profile tts up -d --build
+scripts/avatar_smoke.sh                                # THE ORACLE — writes avatar_out.mp4 or fails loudly
+```
+Full walkthrough: [HOWTO.md](HOWTO.md) · avatar internals + licences: [docs/avatar.md](docs/avatar.md)
+
 
 ## Staggered Upload
 Identity acquisition is incremental and typed: face · voice · documents · knowledge ·
