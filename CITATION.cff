@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: "If you use Project TransEg, cite it via the DOI below (injected post-mint)."
+title: "TransEg — Local Digital Twin Reference Implementation"
+version: "0.1.0"
+type: software
+authors:
+  - family-names: Choudhary
+    given-names: Abhishek
+    affiliation: "AyeAI, Hyderabad, India"
+    orcid: "https://orcid.org/0009-0002-0684-8320"
+license: GPL-3.0-or-later
+date-released: 2026-07-12
+identifiers:
+  - type: other
+    value: "ZENODO-DOI-PENDING"
+    description: "DOI token; injected post-mint by zistgah_seed_transeg.sh --inject-doi"
+references:
+  - type: generic
+    title: "Cognitive Computing System Using Balanced Ternary Logic and PEDLER Family Learning Mechanisms (Indian Patent Application 3033/CHE/2011)"
+    authors:
+      - family-names: Choudhary
+        given-names: Abhishek
+    doi: "10.5281/zenodo.17497559"
+keywords:
+  - TransEg
+  - digital twin
+  - identity continuity
+  - local-first
+  - privacy
+  - PEDLER
+  - Zistgah
+  - staggered upload

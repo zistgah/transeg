@@ -1,0 +1,12 @@
+{
+  "org": "zistgah",
+  "repo": "transeg",
+  "class": "core",
+  "version": "0.1.0",
+  "description": "Project TransEg — local digital twin reference implementation (identity continuity research platform)",
+  "default_branch": "main",
+  "pages": false,
+  "doi_token": "ZENODO-DOI-PENDING",
+  "siblings": ["zistgah/transeg-idgov", "zistgah/transeg-research"],
+  "registry_patch": {"add_known_doi": {"doi": "10.5281/zenodo.17497559", "what": "PEDLER authoritative record (Cognitive Computing System / patent 3033/CHE/2011 archive)"}}
+}

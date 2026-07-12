@@ -1,0 +1,91 @@
+# Project TransEg — one compose starts everything (INTENT: Container Requirements).
+# © 1993-2026 Abhishek Choudhary · AyeAI · GPL-3.0-or-later
+# GPU: avatar is the sole tenant of the RTX 3050's 4 GB (CONTRACT §4).
+name: transeg
+x-svc: &svc
+  restart: unless-stopped
+  networks: [transeg]
+  environment: &env
+    TRANSEG_MOCK: "${TRANSEG_MOCK:-0}"
+
+services:
+  gateway:
+    <<: *svc
+    build: {context: .., dockerfile: docker/service.Dockerfile, args: {SERVICE: gateway}}
+    ports: ["8080:80"]
+    environment:
+      <<: *env
+      TRANSEG_MEMORY_URL:    http://memory:80
+      TRANSEG_STAGGERED_URL: http://staggered:80
+      TRANSEG_SPEECH_URL:    http://speech:80
+      TRANSEG_VAD_URL:       http://vad:80
+      TRANSEG_LLM_URL:       http://llm:80
+      TRANSEG_TTS_URL:       http://tts:80
+      TRANSEG_AVATAR_URL:    http://avatar:80
+    depends_on: [memory, staggered, speech, vad, llm, tts, avatar]
+
+  memory:
+    <<: *svc
+    build: {context: .., dockerfile: docker/service.Dockerfile, args: {SERVICE: memory}}
+    environment: {<<: *env, TRANSEG_MEMORY_DB: /data/identity_graph.db}
+    volumes: ["transeg-data:/data"]
+
+  staggered:
+    <<: *svc
+    build: {context: .., dockerfile: docker/service.Dockerfile, args: {SERVICE: staggered}}
+    environment: {<<: *env, TRANSEG_STAGGERED_STATE: /data/staggered_state.json}
+    volumes: ["transeg-data:/data"]
+
+  speech:
+    <<: *svc
+    build: {context: .., dockerfile: docker/service.Dockerfile, args: {SERVICE: speech}}
+    environment: {<<: *env, TRANSEG_WHISPER_URL: "http://whisper-cpp:8090/inference"}
+    depends_on: [whisper-cpp]
+
+  vad:
+    <<: *svc
+    build: {context: .., dockerfile: docker/service.Dockerfile, args: {SERVICE: vad}}
+    environment: {<<: *env, TRANSEG_SILERO_URL: "http://silero-vad:8091/vad"}
+
+  llm:
+    <<: *svc
+    build: {context: .., dockerfile: docker/service.Dockerfile, args: {SERVICE: llm}}
+    environment: {<<: *env, TRANSEG_OLLAMA_URL: "http://llm-backend:11434"}
+    depends_on: [llm-backend]
+
+  tts:
+    <<: *svc
+    build: {context: .., dockerfile: docker/service.Dockerfile, args: {SERVICE: tts}}
+    environment: {<<: *env, TRANSEG_KOKORO_URL: "http://kokoro-tts:8092/synthesize"}
+
+  avatar:
+    <<: *svc
+    build: {context: .., dockerfile: docker/service.Dockerfile, args: {SERVICE: avatar}}
+    environment: {<<: *env, TRANSEG_LIVEPORTRAIT_URL: "http://faster-liveportrait:8093/render"}
+
+  # ---- backends (models live in ../models, mounted read-only; no duplicate loading) ----
+  whisper-cpp:
+    <<: *svc
+    image: ghcr.io/ggml-org/whisper.cpp:main   # pin a digest on target: bootstrap.sh --pin
+    command: ["--host","0.0.0.0","--port","8090","-m","/models/ggml-base.en.bin"]
+    volumes: ["../models:/models:ro"]
+    deploy: {resources: {limits: {memory: 2g}}}   # CPU only
+
+  llm-backend:
+    <<: *svc
+    image: ollama/ollama:latest                # pin a digest on target: bootstrap.sh --pin
+    volumes: ["transeg-ollama:/root/.ollama"]
+    environment: {OLLAMA_NUM_GPU: "0"}         # CPU: the 4 GB VRAM belongs to the avatar
+    deploy: {resources: {limits: {memory: 8g}}}
+
+  faster-liveportrait:
+    <<: *svc
+    build: {context: .., dockerfile: docker/liveportrait.Dockerfile}
+    volumes: ["../models:/models:ro"]
+    deploy:
+      resources:
+        reservations:
+          devices: [{driver: nvidia, count: 1, capabilities: [gpu]}]
+
+networks: {transeg: {}}
+volumes: {transeg-data: {}, transeg-ollama: {}}

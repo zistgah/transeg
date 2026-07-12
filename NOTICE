@@ -1,0 +1,16 @@
+Project TransEg — Local Digital Twin Reference Implementation
+© 1993–2026 Abhishek Choudhary. All rights reserved.
+Affiliation: AyeAI, Hyderabad, India. Sole author: Abhishek Choudhary.
+
+TransEg™ is a mark of Abhishek Choudhary / AyeAI. AyeAI®, Hindawi™, Romenagri™,
+PEDLER AI™, PRATIK™ and related marks belong to Abhishek Choudhary.
+
+Licensing precedence (per the master contract at zistgah/governance):
+  software      — GPL-3.0-or-later (see LICENSE)
+  content       — CC-BY-SA-4.0
+  metadata      — CC0-1.0
+  novel methods — proprietary; patents reserved; consulting via AyeAI.
+Where a file carries an SPDX header, that header governs the file.
+
+TransEg exists within Zistgah. Zistgah is an institution; this repository and its
+artifacts are interfaces of Zistgah.

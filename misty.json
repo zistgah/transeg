@@ -1,0 +1,13 @@
+{
+  "title": "TransEg — Local Digital Twin Reference Implementation (v0.1.0)",
+  "upload_type": "software",
+  "publication_date": "2026-07-12",
+  "description": "First executable reference implementation of the TransEg architecture: a fully local, privacy-preserving, modular, containerized identity-continuity research platform. Not a chatbot; not merely a talking avatar. Four typed layers (Human Identity, Representation, Digital Twin, TransEg — never conflated), an identity graph with per-node provenance/timestamps/confidence/permissions, a typed Staggered Upload state machine (stages 0-7, independently enabled/revoked/versioned/auditable), and a replaceable component pipeline (Silero VAD, Whisper.cpp ASR, Ollama capability-contract LLM, Kokoro TTS, FasterLivePortrait avatar as sole GPU tenant on a 4 GB VRAM budget) behind a FastAPI gateway. TransEg exists within Zistgah, the enduring institutional substrate; PEDLER provides adaptive cognition, PRATIK the execution substrate, PAT.AL societal participation, VIDYA the knowledge ecosystem. Derived from PEDLER (first published November 2001). Sole author: Abhishek Choudhary, AyeAI, Hyderabad, India. Software GPL-3.0-or-later; content CC-BY-SA-4.0; metadata CC0-1.0; novel methods proprietary (patents reserved).",
+  "creators": [{"name": "Choudhary, Abhishek", "orcid": "0009-0002-0684-8320", "affiliation": "AyeAI, Hyderabad, India"}],
+  "license": "gpl-3.0-or-later",
+  "access_right": "open",
+  "related_identifiers": [
+    {"identifier": "10.5281/zenodo.17497559", "relation": "isDerivedFrom", "scheme": "doi"}
+  ],
+  "keywords": ["TransEg", "digital twin", "identity continuity", "local-first", "privacy", "PEDLER", "Zistgah", "staggered upload", "identity graph"]
+}

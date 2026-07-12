@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+services/**/identity_graph.db
+services/**/staggered_state.json
+models/*
+!models/.gitkeep
+*.tar.gz
+.pytest_cache/

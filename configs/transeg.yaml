@@ -1,0 +1,34 @@
+# Project TransEg — runtime configuration. Fully local by default.
+# © 1993-2026 Abhishek Choudhary · AyeAI · content CC-BY-SA-4.0
+mode:
+  mock: true            # in-container CI default; bootstrap.sh flips to false on target
+  networking_opt_in: false   # NOTHING leaves the machine unless this is true AND scoped below
+layers:                  # the four typed layers — defined in zistgah/transeg-idgov, never conflated
+  - HumanIdentity
+  - Representation
+  - DigitalTwin
+  - TransEg
+llm:                     # capability contract — never a hard-coded model
+  backend: ollama
+  endpoint: http://llm-backend:11434
+  capability:
+    min_context: 4096
+    quantization: [q4_K_M, q4_0, q4]
+    max_ram_gb: 8        # of the 16 GB target, leave room for everything else
+  preference_order:      # regexes, first installed match wins; user override always wins
+    - "qwen.*[34]b.*instruct"
+    - "llama3\\.2.*3b"
+  user_override: null    # set a model name here to win over discovery
+gpu:
+  sole_tenant: avatar    # FasterLivePortrait owns the 4 GB VRAM budget
+services:
+  gateway:   {port: 8080}
+  memory:    {port: 8081, db: /data/identity_graph.db}
+  staggered: {port: 8082, state: /data/staggered_state.json}
+  speech:    {port: 8083, backend: whisper.cpp, model: base.en, device: cpu}
+  vad:       {port: 8084, backend: silero, device: cpu}
+  llm:       {port: 8085, device: cpu}
+  tts:       {port: 8086, backend: kokoro, device: cpu}
+  avatar:    {port: 8087, backend: faster-liveportrait, device: cuda}
+vector_store:
+  plugin: builtin-sqlite  # pluggable; contract in services/memory/app.py VectorStore

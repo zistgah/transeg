@@ -1,0 +1,41 @@
+{
+  "aab": "painting-manifest/1",
+  "system": "Project TransEg — local digital twin reference implementation",
+  "painted": "2026-07-12T06:57:17Z",
+  "intent_ref": "INTENT.md (verbatim, append-only)",
+  "actors": [
+    {"id": "human",  "name": "The human (bioform)", "layer": "HumanIdentity"},
+    {"id": "owner",  "name": "The owner (all identity data belongs here)"},
+    {"id": "transeg","name": "TransEg — computational representative within Zistgah", "layer": "TransEg"}
+  ],
+  "components": [
+    {"id": "vad",      "impl": "Silero",             "device": "cpu",  "state": "verified-mock"},
+    {"id": "asr",      "impl": "Whisper.cpp",        "device": "cpu",  "state": "verified-mock"},
+    {"id": "gateway",  "impl": "FastAPI composer",   "device": "cpu",  "state": "verified-mock"},
+    {"id": "memory",   "impl": "identity graph (SQLite, pluggable vector store)", "device": "cpu", "state": "verified"},
+    {"id": "staggered","impl": "typed stage machine 0-7", "device": "cpu", "state": "verified"},
+    {"id": "llm",      "impl": "Ollama capability contract", "device": "cpu", "state": "verified-mock"},
+    {"id": "tts",      "impl": "Kokoro",             "device": "cpu",  "state": "verified-mock"},
+    {"id": "avatar",   "impl": "FasterLivePortrait", "device": "cuda", "state": "sketch-on-target",
+     "note": "sole GPU tenant; only bootstrap.sh --validate on the RTX 3050 upgrades this"}
+  ],
+  "stores": [
+    {"id": "identity_graph", "kind": "sqlite", "invariants": ["provenance", "timestamps", "confidence", "permissions", "typed layer"]},
+    {"id": "staggered_state", "kind": "json", "invariants": ["per-stage version", "audit trail"]},
+    {"id": "models", "kind": "files", "invariants": ["versioned", "attributable", "no duplicate loading"]}
+  ],
+  "gates_oracles": [
+    {"id": "O-CI",     "oracle": "pytest tests/ (in-process ASGI, mock mode)", "scope": "API contracts, graph, gating, composition"},
+    {"id": "O-TARGET", "oracle": "scripts/bootstrap.sh --validate + full run on Ryzen7/16GB/RTX3050", "scope": "models, GPU, audio, camera, latency"},
+    {"id": "O-GATE",   "oracle": "scripts/zistgah_seed_transeg.sh --check", "scope": "contract, credits, affiliation, DOI discipline"},
+    {"id": "O-COMPOSE","oracle": "yaml load + single-GPU-tenant invariant check", "scope": "compose"}
+  ],
+  "interfaces": ["POST /speech", "POST /chat", "POST /voice", "POST /avatar/render",
+                 "POST /memory/store", "POST /memory/query", "GET /health",
+                 "staggered: /stages/enable /stages/revoke /capability/{stage}"],
+  "environments": ["container-ci (mock)", "target: Ubuntu 26.04 · Ryzen 7 · 16 GB · RTX 3050 4 GB"],
+  "flows": [
+    "mic -> vad -> asr -> gateway -> memory(read, stage-4 gated) -> llm -> memory(write event, provenance) -> tts -> avatar(stage-0 gated) -> human"
+  ],
+  "grounding_rule": "No oracle, no glow. Mock passes never claim hardware passes."
+}
