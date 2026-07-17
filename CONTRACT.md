@@ -31,7 +31,7 @@ rule (no /tmp). Contribution gate on every change.
 9. **Mock oracles are labelled.** In-container CI verifies API contracts and the pipeline in
    mock mode. Model-dependent claims are verified only by `bootstrap.sh --validate` on the
    target machine. Never report a mock pass as a hardware pass.
-10. **DOI/publishing:** misty-doi + OpenTimestamps; DOI token `ZENODO-DOI-PENDING` injected
+10. **DOI/publishing:** misty-doi + OpenTimestamps; DOI token `10.5281/zenodo.21321558` injected
     post-mint via the seed script. `isDerivedFrom` → PEDLER doi:10.5281/zenodo.17497559
     (verified by direct read 2026-06-29; resolve-check before mint). No other related
     identifiers unless verified.

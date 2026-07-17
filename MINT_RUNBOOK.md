@@ -49,9 +49,9 @@ misty publish -m misty.json -f transeg-0.1.0.tar.gz --no-publish
 misty publish -m misty.json -f transeg-0.1.0.tar.gz
 
 # 5. Inject the real DOI back into the repo, seal, push
-scripts/zistgah_seed_transeg.sh --inject-doi 10.5281/zenodo.NNNNNNNN
+scripts/zistgah_seed_transeg.sh --inject-doi 10.5281/zenodo.21321558NNNNNNNN
 scripts/zistgah_seed_transeg.sh --ots
-git add -A && git commit -m "DOI 10.5281/zenodo.NNNNNNNN (v0.1.0)" && git push
+git add -A && git commit -m "DOI 10.5281/zenodo.21321558NNNNNNNN (v0.1.0)" && git push
 ```
 
 Then the same five steps in `transeg-idgov` and `transeg-research` (their seed scripts have

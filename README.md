@@ -2,7 +2,7 @@
 
 **TransEg™** · © 1993–2026 Abhishek Choudhary · AyeAI, Hyderabad, India · sole author.
 Software GPL-3.0-or-later · content CC-BY-SA-4.0 · metadata CC0-1.0 · novel methods proprietary.
-DOI: 10.5281/zenodo.NNNNNNNN · derived from PEDLER (Nov 2001, doi:10.5281/zenodo.17497559)
+DOI: 10.5281/zenodo.21321558NNNNNNNN · derived from PEDLER (Nov 2001, doi:10.5281/zenodo.17497559)
 
 This is not a chatbot. It is not merely a talking avatar. It is an **identity continuity
 research platform** — the first executable reference implementation of the TransEg

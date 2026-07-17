@@ -4,7 +4,7 @@
 # Gated seed for zistgah/transeg — zseed pattern; in-folder only; author pushes, AI never does.
 #   --check        preflight only (default)
 #   --push         create/push zistgah/transeg via gh (requires your auth)
-#   --inject-doi D replace ZENODO-DOI-PENDING with the real minted DOI, post-mint
+#   --inject-doi D replace 10.5281/zenodo.21321558 with the real minted DOI, post-mint
 #   --ots          OpenTimestamps-stamp the release tarball hash into provenance/
 set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"; cd "$HERE"
@@ -43,9 +43,9 @@ case "$MODE" in
     log "REGISTRY PATCH: add PEDLER DOI to zistgah/governance REGISTRY.json known_dois (see seed.json registry_patch)"
     ;;
   --inject-doi)
-    DOI="${2:?usage: --inject-doi 10.5281/zenodo.NNNNN}"
-    grep -rl "ZENODO-DOI-PENDING" README.md CITATION.cff 2>/dev/null | while read -r f; do
-      sed -i "s|ZENODO-DOI-PENDING|$DOI|g" "$f"; log "injected $DOI -> $f"
+    DOI="${2:?usage: --inject-doi 10.5281/zenodo.21321558NNNNN}"
+    grep -rl "10.5281/zenodo.21321558" README.md CITATION.cff 2>/dev/null | while read -r f; do
+      sed -i "s|10.5281/zenodo.21321558|$DOI|g" "$f"; log "injected $DOI -> $f"
     done ;;
   --ots)
     command -v ots >/dev/null || { echo "opentimestamps-client required"; exit 1; }

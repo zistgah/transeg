@@ -11,7 +11,7 @@ Grounding rule: no oracle, no glow._
 | Q4 Staggered Upload | typed stage machine 0-7 | O-CI test_staggered_upload | pytest: no implicit grants; independent revoke; version+audit per mutation | ✅ verified |
 | Q5 Component adapters | vad/asr/llm/tts/avatar adapters, mock+real modes; LLM capability contract | O-CI test_pipeline_mock (mock tier) | pytest: full composed flow, gates enforced, preference-order resolution | ✅ verified (mock) / ⬜ on-target |
 | Q6 Bootstrap + pins | bootstrap.sh (dry-run/validate/models/pin/full) | bash -n + dry-run here; O-TARGET on your machine | dry-run plan captured; **hardware claims remain unverified until O-TARGET** | ◐ dry-run only |
-| Q7 Publish rail | misty.json, CITATION.cff, seed.json, seed script, provenance/ | O-GATE; misty validate + mint = author's machine | json/cff validated; DOI token ZENODO-DOI-PENDING; isDerivedFrom PEDLER 10.5281/zenodo.17497559 | ◐ pre-mint |
+| Q7 Publish rail | misty.json, CITATION.cff, seed.json, seed script, provenance/ | O-GATE; misty validate + mint = author's machine | json/cff validated; DOI token 10.5281/zenodo.21321558; isDerivedFrom PEDLER 10.5281/zenodo.17497559 | ◐ pre-mint |
 | Q-PROV Concept provenance | TransEg decades-old archival evidence (hindawi.in, Wayback) | author retrieval | **Declared** (author testimony). Upgrade to Verified: `curl "http://web.archive.org/cdx/search/cdx?url=hindawi.in*&output=text&limit=2000" \| grep -i transeg` — then commit the snapshot URL here + OTS-stamp it | ⬜ declared |
 
 ## Author's push checklist (the steps the AI never runs)
